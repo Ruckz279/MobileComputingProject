@@ -3,4 +3,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="weight">WEIGHT</string>
+    <string name="status">Status</string>
+    <string name="bmi">BMI :</string>
+    <string name="textview">BMI</string>
+    <string name="textView2">WEIGHT</string>
+    <string name="title_activity_user_info_sex">UserInfoSex</string>
+    <string name="title_activity_user_age">UserAge</string>
+    <string name="title_activity_user_height">UserHeight</string>
 </resources>
