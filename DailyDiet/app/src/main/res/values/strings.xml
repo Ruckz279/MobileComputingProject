@@ -11,4 +11,16 @@
     <string name="title_activity_user_info_sex">UserInfoSex</string>
     <string name="title_activity_user_age">UserAge</string>
     <string name="title_activity_user_height">UserHeight</string>
+    <string name="next">Next</string>
+    <string name="age">Age in years</string>
+    <string name="text1">How old are you ?</string>
+    <string name="next2">Next</string>
+    <string name="height">Height in centi meters</string>
+    <string name="text2">What is your height?</string>
+    <string name="next3">next3</string>
+    <string name="text3">What is your weight?</string>
+    <string name="next4">next4</string>
+    <string name="femaleToggle">FEMALE</string>
+    <string name="maleToggle">MALE</string>
+
 </resources>

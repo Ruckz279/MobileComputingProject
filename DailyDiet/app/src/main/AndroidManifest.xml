@@ -11,10 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".addinfo.WeightActivity"></activity>
+        <activity android:name=".addinfo.ActiveActivity" />
+        <activity android:name=".addinfo.GenderActivity" />
+        <activity android:name=".addinfo.HeightActivity" />
+        <activity android:name=".addinfo.AgeActivity" />
         <activity
             android:name=".ui.userinfo.UserHeight"
             android:label="@string/title_activity_user_height"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.userinfo.UserAge"
             android:label="@string/title_activity_user_age"
