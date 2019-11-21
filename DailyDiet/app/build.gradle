@@ -47,6 +47,9 @@ dependencies {
     // Card  view dependency
     def cardview_version = "1.0.0"
     implementation "androidx.cardview:cardview:$cardview_version"
+    //Retrofit JSON
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
 
     //glide for loading image
     def glide_version = "4.8.0"

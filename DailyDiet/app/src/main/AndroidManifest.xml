@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".addinfo.WeightActivity"></activity>
+        <activity android:name=".ui.dashboard.SearchActivity"></activity>
+        <activity android:name=".addinfo.WeightActivity" />
         <activity android:name=".addinfo.ActiveActivity" />
         <activity android:name=".addinfo.GenderActivity" />
         <activity android:name=".addinfo.HeightActivity" />

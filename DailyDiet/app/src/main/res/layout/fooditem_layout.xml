@@ -48,11 +48,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/food_author"
-                android:text="Mitch Tabian"
+                android:id="@+id/food_ingredients"
+                android:text="Sample"
                 android:textSize="15sp"
                 android:layout_marginTop="10dp"
                 />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/food_calorie"
+                android:text="cal"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                />
+
+            <Button
+                android:id="@+id/add_Item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADD" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

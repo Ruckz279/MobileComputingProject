@@ -1,6 +1,7 @@
 package com.example.dailydiet.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,7 @@ class DashboardFragment : Fragment() {
         addData()
     }
 
+
     private fun addData(){
         val data = DataSource.createDataSet()
         foodAdapter.submitList(data)
@@ -44,6 +46,11 @@ class DashboardFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             foodAdapter = FoodItemRecyclerAdapter()
             adapter = foodAdapter
+            foodAdapter.onItemClick = { fooditem ->
+
+                // do something with your item
+                Log.d("TAG", fooditem.calorie)
+            }
         }
     }
 }

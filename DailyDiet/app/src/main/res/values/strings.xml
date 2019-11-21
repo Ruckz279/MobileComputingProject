@@ -22,5 +22,8 @@
     <string name="next4">next4</string>
     <string name="femaleToggle">FEMALE</string>
     <string name="maleToggle">MALE</string>
+    <string name="AddItem">EDIT</string>
+    <string name="search">Search</string>
+
 
 </resources>
