@@ -1,5 +1,6 @@
 package com.example.dailydiet
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.dailydiet.addinfo.AgeActivity
 import kotlinx.android.synthetic.main.activity_age.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlin.math.round
 import java.nio.file.Files.size
 import com.example.dailydiet.SaveSharedPref as SaveSharedPref
 
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         var (age, height, weight, gender,active) = getSavedValues()
-        if (gender == null) {
+        if (active == null) {
             val intent = Intent(applicationContext, AgeActivity::class.java)
             startActivity(intent)
         }
@@ -43,6 +45,12 @@ class MainActivity : AppCompatActivity() {
            val category = getCategory(BMI)
            val BMR = evaluateBMR(age.toString(),height.toString(), weight.toString(),gender.toString())
             val calorieExpense = evaluateCalorie(BMR,active.toString())
+            //sumCalorie.text = "CALORIE BUDGET : "+calorieExpense + "KCal"
+
+            val sharedPref= SaveSharedPref()
+            sharedPref.saveStringItem("expense",calorieExpense.toString(),this)
+            sharedPref.saveStringItem("category",category,this)
+            sharedPref.saveStringItem("BMI",BMI.toString(),this)
         }
 
     }
@@ -58,9 +66,10 @@ class MainActivity : AppCompatActivity() {
 
     fun evaluateBMI(age:String, height:String, weight:String): Double {
         var heightInMeters = height.toDouble()/100
-        val temp = Math.pow(heightInMeters.toDouble(),2.0)
+        val temp = Math.pow(heightInMeters,2.0)
         val BMI = weight.toDouble()/temp
-        return BMI
+        return round(BMI*100)/100.toDouble()
+
     }
 
     fun getCategory(BMI :Double): String {
@@ -77,16 +86,34 @@ class MainActivity : AppCompatActivity() {
 
     fun evaluateBMR(age:String, height:String, weight:String, gender:String): Double {
         var BMR:Double = 0.0
-        val heightInMeter = height.toDouble()/100
+
         if(gender == "MALE") {
-            BMR = (10 * weight.toDouble()) + (6.25 * heightInMeter) - (5 * age.toInt()) + 5
+            BMR = (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age.toInt()) + 5
         }
         else {
-            BMR = (10 * weight.toDouble()) + (6.25 * heightInMeter) - (5 * age.toInt()) + 5 - 161
+            BMR = (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age.toInt()) + 5 - 161
         }
       return BMR
     }
-    fun evaluateCalorie(BMR: Double, active:String): Double{
-        return 5657.0
+    fun evaluateCalorie(BMR: Double, active:String): Int{
+        var activeStatus =  active.toDouble()
+        when (activeStatus){
+            1.00 -> activeStatus = 1.2
+            2.00 -> activeStatus = 1.375
+            3.00 -> activeStatus = 1.55
+            4.00 -> activeStatus = 1.725
+            5.00 -> activeStatus = 1.9
+        }
+        var calorieExpense = BMR * activeStatus
+        return calorieExpense.toInt()
+    }
+    override fun onActivityResult(requestCode:Int, resultCode:Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(data!=null){
+            if(resultCode == Activity.RESULT_OK){
+                var foodItem = data.getSerializableExtra("MENU_ITEM")
+            }
+
+        }
     }
 }

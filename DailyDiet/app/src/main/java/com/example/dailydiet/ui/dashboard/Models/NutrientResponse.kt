@@ -8,6 +8,9 @@ class FoodDetailResponse {
     var description: String? = null
     @SerializedName("foodNutrients")
     var nutrients = ArrayList<FoodNutrients>()
+    //@SerializedName("inputFoods")
+    //var inputFoods=ArrayList<InputFoods>()
+   // var inputFoods=InputFoods()
 }
 
 class FoodNutrients {
@@ -21,4 +24,10 @@ class Nutrient {
     var name: String? = null
     var unitNme: String? = null
     var rank: Int? = 0
+}
+
+class InputFoods{
+    var portionDescription : String?=null
+    var portionCode : String?=null
+    var gramWeight:Int?=0
 }

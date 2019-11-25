@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.dailydiet.R
+import com.example.dailydiet.SaveSharedPref
+
+
 
 class HomeFragment : Fragment() {
 
@@ -24,9 +25,23 @@ class HomeFragment : Fragment() {
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val weight:Button = root.findViewById(R.id.weight)
+        val budget:Button = root.findViewById(R.id.budget)
+        val status:Button = root.findViewById(R.id.status)
+        val bmi:Button = root.findViewById(R.id.bmi)
         //homeViewModel.weight.observe(this, Observer {
-            weight.text = "WEIGHT : 54 KG"
+        val sharedPref = SaveSharedPref()
+        val calorie = sharedPref.getStringItem("expense", getContext()!!)
+        val weght = sharedPref.getStringItem("weight",getContext()!!)
+        val categry = sharedPref.getStringItem("category",getContext()!!)
+        val str = "CALORIE BUDGET : "+calorie +" KCal"
+        val bmiVal = sharedPref.getStringItem("BMI",getContext()!!)
+        weight.text = weght + " KG"
+        budget.text = str
+        status.text = categry
+        bmi.text = bmiVal
+
         //})
+
         return root
     }
 }

@@ -1,19 +1,19 @@
 package com.example.dailydiet.ui.dashboard
 
+import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.AttributeSet
+
 import android.util.Log
-import android.view.Menu
-import android.view.View
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailydiet.R
 import com.example.dailydiet.ui.dashboard.Models.*
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.fragment_dashboard.*
+
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -23,14 +23,17 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.collections.ArrayList
-import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
+
 
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
+import com.example.dailydiet.SaveSharedPref
 
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var foodAdapter: FoodItemRecyclerAdapter
+    lateinit var menu:String
     // prepare call in Retrofit 2.0
     val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -38,10 +41,13 @@ class SearchActivity : AppCompatActivity() {
         .build()
     val service = retrofit.create(FoodService::class.java)
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         var searchItem: String
+        menu = intent.getStringExtra("MENU_TITLE")
         search.setOnClickListener {
 
             searchItem = search.text.toString()
@@ -61,12 +67,22 @@ class SearchActivity : AppCompatActivity() {
         var api_key = "DplHTnW193Hm4kgiAGHKPUTAginfkQsRbClBEI5X"
     }
 
+    override fun onResume() {
+        super.onResume()
+        getSavedValues()
+    }
 
-
+    fun getSavedValues() {
+        val sharedPref = SaveSharedPref()
+        val food = sharedPref.getStringItem(menu+"item", this)
+        val cal = sharedPref.getStringItem(menu+"calorie", this)
+        //var f: FoodItem = null
+        //return f
+    }
     private fun initRecyclerView() {
         recycler2.apply {
             layoutManager = LinearLayoutManager(context)
-            foodAdapter = FoodItemRecyclerAdapter()
+            foodAdapter = FoodItemRecyclerAdapter(Fragment())
             adapter = foodAdapter
             foodAdapter.onItemClick = { fooditem ->
 
@@ -116,8 +132,10 @@ class SearchActivity : AppCompatActivity() {
                     val foodDetailResponse = response.body()!!
                     for (item in foodDetailResponse.nutrients) {
                         if (item.nutrients.id == 1008) {
-                            calorie = item.amount.toString()
-                            foodItem.calorie = calorie
+                            calorie = item.amount!!
+                            //calorie = "%.2f".format(item.amount).toDouble().toString()
+                            //var portion = foodDetailResponse.inputFoods.gramWeight.toString()
+                            foodItem.calorie = calorie //+ "/" +portion+"gm"
                             callback(foodItem)
                             break
                         }
@@ -141,10 +159,11 @@ class SearchActivity : AppCompatActivity() {
         var foodArrayList: MutableList<FoodItem> = ArrayList()
         for (item in dataArray.foods) {
             var foodItem1:Foods = item
-            var foodItem: FoodItem = FoodItem(null,null,null,null,null)
+            var foodItem: FoodItem = FoodItem(null,null,null,null,null, null)
             foodItem.title = foodItem1.description
             foodItem.ingredients = item.ingredients
             foodItem.food_ID = item.foodID
+            // In call back update the recycler view
             getCalorie(foodItem){foodItem->
                 foodArrayList.add(foodItem)
                 if(foodArrayList.size == (dataArray.foods).size)

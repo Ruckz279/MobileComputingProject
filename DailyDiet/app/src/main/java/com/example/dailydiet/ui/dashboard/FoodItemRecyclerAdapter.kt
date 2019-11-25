@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
+
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -20,10 +18,25 @@ import com.example.dailydiet.ui.dashboard.Models.FoodItem
 import kotlinx.android.synthetic.main.fooditem_layout.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 
-class FoodItemRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+import android.app.Activity
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.example.dailydiet.SaveSharedPref
+
+
+class FoodItemRecyclerAdapter(frag:Fragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     var items: List<FoodItem> = ArrayList()
     var onItemClick: ((FoodItem) -> Unit)? = null
+    var frag = frag
+    lateinit var mContext:Context
+    //to identify which activity the recycler is used
+    companion object {
+        const val TYPE_MENU = 0
+        const val TYPE_SEARCH = 1
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        mContext = parent.getContext();
         return FoodItemViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.fooditem_layout,parent,false)
         )
@@ -36,20 +49,50 @@ class FoodItemRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
             is FoodItemViewHolder ->{
-                holder.itemView.setOnClickListener {
-                    (holder.itemView.food_ingredients.setTextColor(Color.GREEN))
+                holder.addFoodBtn.setOnClickListener {
+                    //check if its search activity or the Menu activity(foodTitle tag as -1)
                     var context = holder.itemView.getContext()
-                    val intent = Intent(context, SearchActivity::class.java)
-                    context.startActivity(intent)
+                    if(holder.itemViewType== TYPE_MENU) {
+                        (holder.itemView.food_ingredients.setTextColor(Color.GREEN))
+                        val intent = Intent(mContext, SearchActivity::class.java)
+                        intent.putExtra("MENU_TITLE", items.get(position).title)
+                        frag.startActivityForResult(intent,Activity.RESULT_OK)
+
+                    }
+                    else {
+                        //dismiss the search View
+                        var f = items.get(position)
+                        //pass the food item object
+                        val returnIntent = Intent()
+                        returnIntent.putExtra("MENU_TITLE",(context as SearchActivity).menu)
+                        returnIntent.putExtra("MENU_ITEM",f)
+
+                        (context as SearchActivity).setResult(Activity.RESULT_OK,returnIntent)
+                        (context as SearchActivity).finish()
+                        saveItem( (context as SearchActivity).menu,f, context)
+                    }
                 }
                 holder.bind(items.get(position))
             }
         }
     }
-
+    fun saveItem( menu:String,food:FoodItem, context: Context){
+        val sharedPref= SaveSharedPref()
+        var editor = sharedPref.saveStringItem(menu+"item",food.title.toString(),context)
+        editor = sharedPref.saveStringItem(menu+"calorie",food.calorie.toString(),context)
+    }
+    override fun getItemViewType(position: Int): Int {
+        val type = when (items[position].itemType) {
+            "MENU"-> TYPE_MENU
+            else -> TYPE_SEARCH
+        }
+        return type
+    }
     fun submitList(foodList : List<FoodItem>){
         items = foodList
+
         notifyDataSetChanged()
+
     }
 
     class FoodItemViewHolder constructor(
@@ -64,7 +107,7 @@ class FoodItemRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         fun bind(foodItem: FoodItem){
             foodTitle.setText(foodItem.title)
             foodIngredients.setText(foodItem.ingredients)
-            foodCalorie.setText(foodItem.calorie)
+            foodCalorie.setText("CALORIE :" + foodItem.calorie.toString())
             //val requestOptions =RequestOptions().placeholder().error()
             //Glide.with(itemView.context).load(foodItem.image).into(foodImage)
 

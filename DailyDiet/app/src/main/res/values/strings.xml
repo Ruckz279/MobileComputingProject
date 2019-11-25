@@ -24,6 +24,14 @@
     <string name="maleToggle">MALE</string>
     <string name="AddItem">EDIT</string>
     <string name="search">Search</string>
+    <string name="calorie">Calorie</string>
+    <string name="how_active_are_you">How active are you?</string>
+    <string name="not_active">Not Active</string>
+    <string name="lightly_active">Lightly Active</string>
+    <string name="very_active">Very Active</string>
+    <string name="heavily_active">Heavily Active</string>
+    <string name="active">Active</string>
+    <string name="button">Button</string>
 
 
 </resources>
