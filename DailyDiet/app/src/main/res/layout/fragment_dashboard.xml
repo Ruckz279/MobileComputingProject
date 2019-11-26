@@ -5,31 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+   <TextView
+       android:id="@+id/textView8"
+       android:layout_width="394dp"
+       android:layout_height="28dp"
+       android:layout_marginStart="16dp"
+       android:layout_marginLeft="16dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginBottom="2dp"
+       android:text="@string/calorie_remaining"
+       android:textSize="18sp"
+       app:fontFamily="@font/arsenal_bold"
+       app:layout_constraintBottom_toTopOf="@+id/sumCalorie1"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent" />
+
    <Button
        android:id="@+id/sumCalorie1"
        android:layout_width="380dp"
        android:layout_height="50dp"
        android:layout_marginStart="20dp"
        android:layout_marginLeft="20dp"
-       android:layout_marginTop="10dp"
        android:layout_marginEnd="20dp"
        android:layout_marginRight="20dp"
        android:layout_marginBottom="10dp"
-       android:background="#FFFFFF"
+       android:background="#F52A48"
        android:clickable="false"
        android:text="@string/calorie"
        android:textColor="@color/colorAccent"
-       android:textSize="18dp"
+       android:textSize="18sp"
        app:layout_constraintBottom_toTopOf="@+id/recycler"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
+       app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/recycler"
        android:layout_width="405dp"
-       android:layout_height="680dp"
+       android:layout_height="0dp"
+       android:layout_marginStart="6dp"
+       android:layout_marginLeft="6dp"
        android:layout_marginTop="11dp"
+       android:layout_marginBottom="50dp"
+       app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintRight_toRightOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toBottomOf="@+id/sumCalorie1"></androidx.recyclerview.widget.RecyclerView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

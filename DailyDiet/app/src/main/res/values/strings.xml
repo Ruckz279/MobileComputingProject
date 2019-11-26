@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">DailyDiet</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dashboard">Todays Diet</string>
+    <string name="title_notifications">Profile</string>
     <string name="weight">WEIGHT</string>
     <string name="status">Status</string>
     <string name="bmi">BMI :</string>
@@ -32,6 +32,9 @@
     <string name="heavily_active">Heavily Active</string>
     <string name="active">Active</string>
     <string name="button">Button</string>
+    <string name="calorie_budget">YOUR CALORIE BUDGET</string>
+    <string name="calorie_remaining">REMAINING CALORIE BUDGET</string>
+    <string name="todo">TODO</string>
 
 
 </resources>

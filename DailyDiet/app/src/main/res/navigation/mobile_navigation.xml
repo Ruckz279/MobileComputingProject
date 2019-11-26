@@ -7,19 +7,23 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.dailydiet.ui.home.HomeFragment"
+        android:name="com.example.dailydiet.bottomNavigationUI.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home"
+        />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.dailydiet.ui.dashboard.DashboardFragment"
+        android:name="com.example.dailydiet.bottomNavigationUI.dailydiet.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard"
+        app:itemIconTint="#F52A48"
+        app:itemTextColor="#FFFFFF" />
+    />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.dailydiet.ui.notifications.NotificationsFragment"
+        android:name="com.example.dailydiet.bottomNavigationUI.profile.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -1,9 +1,7 @@
 package com.example.dailydiet
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.dailydiet.addinfo.AgeActivity
-import kotlinx.android.synthetic.main.activity_age.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.math.round
-import java.nio.file.Files.size
 import com.example.dailydiet.SaveSharedPref as SaveSharedPref
 
 class MainActivity : AppCompatActivity() {
@@ -23,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //set up bottom navigation view
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -35,25 +30,22 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        //get the saved user information from shared preference
         var (age, height, weight, gender,active) = getSavedValues()
+        //if no infromation saved call intent to gather user information
         if (active == null) {
             val intent = Intent(applicationContext, AgeActivity::class.java)
             startActivity(intent)
         }
         else {
-           val BMI = evaluateBMI(age.toString(), height.toString(), weight.toString())
-           val category = getCategory(BMI)
-           val BMR = evaluateBMR(age.toString(),height.toString(), weight.toString(),gender.toString())
-            val calorieExpense = evaluateCalorie(BMR,active.toString())
-            //sumCalorie.text = "CALORIE BUDGET : "+calorieExpense + "KCal"
-
-            val sharedPref= SaveSharedPref()
-            sharedPref.saveStringItem("expense",calorieExpense.toString(),this)
-            sharedPref.saveStringItem("category",category,this)
-            sharedPref.saveStringItem("BMI",BMI.toString(),this)
+            performCalculations(age!!,height!!,weight!!,gender!!,active!!)
         }
-
     }
+
+
+    /* Get locally saved user information
+
+     */
     fun getSavedValues():Array<String?> {
         val sharedPref = SaveSharedPref()
         val age = sharedPref.getStringItem("age", this)
@@ -64,17 +56,30 @@ class MainActivity : AppCompatActivity() {
         return arrayOf(age,height,weight,gender,active)
     }
 
+    /*Eveluate BMI , categorise the user , evaluate BMR  and the calorie expense
+     */
+    fun performCalculations(age:String,height: String,weight: String,gender: String,active: String){
+        val BMI = evaluateBMI(age, height, weight)
+        val category = getCategory(BMI)
+        val BMR = evaluateBMR(age,height, weight,gender)
+        val calorieExpense = evaluateCalorie(BMR,active)
+
+        //save the estimated user data localy
+        val sharedPref= SaveSharedPref()
+        sharedPref.saveStringItem("expense",calorieExpense.toString(),this)
+        sharedPref.saveStringItem("category",category,this)
+        sharedPref.saveStringItem("BMI",BMI.toString(),this)
+    }
+
     fun evaluateBMI(age:String, height:String, weight:String): Double {
         var heightInMeters = height.toDouble()/100
         val temp = Math.pow(heightInMeters,2.0)
         val BMI = weight.toDouble()/temp
         return round(BMI*100)/100.toDouble()
-
     }
 
     fun getCategory(BMI :Double): String {
         var category:String = "NONE"
-
         when {
             BMI < 18.5 -> category = "UNDERWEIGHT"
             BMI >= 18.5 && BMI <= 24.9 -> category = "NORMAL"
@@ -86,7 +91,6 @@ class MainActivity : AppCompatActivity() {
 
     fun evaluateBMR(age:String, height:String, weight:String, gender:String): Double {
         var BMR:Double = 0.0
-
         if(gender == "MALE") {
             BMR = (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age.toInt()) + 5
         }
@@ -95,6 +99,8 @@ class MainActivity : AppCompatActivity() {
         }
       return BMR
     }
+
+
     fun evaluateCalorie(BMR: Double, active:String): Int{
         var activeStatus =  active.toDouble()
         when (activeStatus){
@@ -107,6 +113,7 @@ class MainActivity : AppCompatActivity() {
         var calorieExpense = BMR * activeStatus
         return calorieExpense.toInt()
     }
+
     override fun onActivityResult(requestCode:Int, resultCode:Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(data!=null){
