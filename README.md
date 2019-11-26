@@ -24,11 +24,13 @@ Heavily active -If user performs very heavy exercise like twice per day or extra
 
 
  The main screens of Daily diet plan is designed as a bottom navigation application  with two tabs:
-   a) Home tab: Displays the values of reccomended calorie estimation, Body mass index (BMI), weight in kilograms and BMI category as status.
+   a) Home tab: Displays the values of reccomended calorie estimation, Body mass index (BMI), weight in kilograms and BMI category as status.![](images/Home.png)
+
 
    b) ‘Today’s Diet’ tab: Shows the list of food items planned to take for Breakfast, snacks, lunch and dinner. This view alerts on the remaining calorie to spend based on selected diet.
   
 Planning the meals: Initially the ‘Todays Diet’ tab is an empty list where user can add his choice of food. The ‘ADD’ button in each meals takes user to a search screen.
+![](images/emptyPlan.png)
 
 Search screen: Type in any food item you wish to have. The application returns a list of options with ingredients, brand (if available), amount of food and calorie in Kilo Jules. The food options are from USDA Food Data Central Database.
 
@@ -58,7 +60,8 @@ Shared Prefernces
  
 
 6)Users Manual 
-![](images/home)
+Check out this video for the application in operation
+
    -a use case 
 7)Contact us:
 Pull request are welcome . Please email at ruckiya.sinorina@gmail.com
