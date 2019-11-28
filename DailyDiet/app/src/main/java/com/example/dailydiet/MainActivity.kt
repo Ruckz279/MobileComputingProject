@@ -116,11 +116,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode:Int, resultCode:Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(data!=null){
-            if(resultCode == Activity.RESULT_OK){
-                var foodItem = data.getSerializableExtra("MENU_ITEM")
-            }
+        val fm = (this).getSupportFragmentManager()
+        val fragment = fm.findFragmentById(R.id.nav_host_fragment)
+        val child = fragment?.childFragmentManager
+        child?.primaryNavigationFragment?.onActivityResult(requestCode, resultCode, data)
 
-        }
     }
 }

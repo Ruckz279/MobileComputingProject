@@ -1,6 +1,8 @@
 package com.example.dailydiet.bottomNavigationUI.dailydiet
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -26,9 +28,11 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.example.dailydiet.SaveSharedPref
+import com.google.android.material.bottomnavigation.BottomNavigationMenu
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity(): AppCompatActivity() {
+
     private lateinit var foodAdapter: FoodItemRecyclerAdapter
     lateinit var menu:String
     // prepare call in Retrofit 2.0
@@ -79,7 +83,9 @@ class SearchActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         recycler2.apply {
             layoutManager = LinearLayoutManager(context)
-            foodAdapter = FoodItemRecyclerAdapter(Fragment())
+            //var fragment = supportFragmentManager.
+            //Fragment uploadType = getChildFragmentManager().findFragmentById(R.id.container_framelayout);
+            foodAdapter = FoodItemRecyclerAdapter(DashboardFragment())
             adapter = foodAdapter
             foodAdapter.onItemClick = { fooditem ->
 
@@ -116,6 +122,14 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
+    fun dismissSearch(fooditem:FoodItem){
+        val returnIntent = Intent()
+        returnIntent.putExtra("MENU_TITLE",menu)
+        returnIntent.putExtra("MENU_ITEM",fooditem)
+        setResult(Activity.RESULT_OK,returnIntent)
+        //frag.updateItem(fooditem ,menu)
+        finish()
+    }
     fun getCalorie(foodItem :FoodItem, callback:(FoodItem)->Unit) {
         //get calorie of a selected food id
         var calorie: String = ""
@@ -137,7 +151,6 @@ class SearchActivity : AppCompatActivity() {
                             break
                         }
                     }
-
                     val stringBuilder = "Item: " +
                             foodDetailResponse.description +
                             "\n" +

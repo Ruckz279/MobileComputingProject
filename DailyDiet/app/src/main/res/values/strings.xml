@@ -35,6 +35,8 @@
     <string name="calorie_budget">YOUR CALORIE BUDGET</string>
     <string name="calorie_remaining">REMAINING CALORIE BUDGET</string>
     <string name="todo">TODO</string>
+    <string name="title">Title</string>
+    <string name="ingredients">Ingredients</string>
 
 
 </resources>

@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment
 import com.example.dailydiet.SaveSharedPref
 
 
-class FoodItemRecyclerAdapter(frag:Fragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     var items: List<FoodItem> = ArrayList()
     var onItemClick: ((FoodItem) -> Unit)? = null
     var frag = frag
@@ -48,23 +48,23 @@ class FoodItemRecyclerAdapter(frag:Fragment) : RecyclerView.Adapter<RecyclerView
                     //check if its search activity or the Menu activity(foodTitle tag as -1)
                     var context = holder.itemView.getContext()
                     if(holder.itemViewType== TYPE_MENU) {
+                        frag.addFoodAction(items.get(position))
                         (holder.itemView.food_ingredients.setTextColor(Color.GREEN))
-                        val intent = Intent(mContext, SearchActivity::class.java)
-                        intent.putExtra("MENU_TITLE", items.get(position).title)
-                        frag.startActivityForResult(intent,Activity.RESULT_OK)
-
                     }
                     else {
                         //dismiss the search View
                         var f = items.get(position)
-                        //pass the food item object
-                        val returnIntent = Intent()
-                        returnIntent.putExtra("MENU_TITLE",(context as SearchActivity).menu)
-                        returnIntent.putExtra("MENU_ITEM",f)
+                        (context as SearchActivity).dismissSearch(f)
+                    }
+                }
 
-                        (context as SearchActivity).setResult(Activity.RESULT_OK,returnIntent)
-                        (context as SearchActivity).finish()
-                        saveItem( (context as SearchActivity).menu,f, context)
+                holder.itemView.setOnClickListener{
+                    //selected food detail ingredients
+                    if(holder.itemViewType != TYPE_MENU){
+                        val intent = Intent(mContext, DetailIngredientsActivity::class.java)
+                        intent.putExtra("FOOD_TITLE", items.get(position).title)
+                        intent.putExtra("FOOD_INGR", items.get(position).ingredients)
+                        mContext.startActivity(intent)
                     }
                 }
                 holder.bind(items.get(position))

@@ -1,4 +1,4 @@
-# MobileComputingProject
+﻿# MobileComputingProject
 
 
 DAILY DIET PLAN – An android mobile application prototype (Mobile Computing Project CS855)
@@ -11,7 +11,7 @@ The 'Daily Diet Plan' application allows the user to plan their daily meals base
 Being a beginner in Android development and Kotlin programming language, this project is proposed to learn and explore the process of API integration, implementation and use of different user interface elements in an android app through facilitating the daily diet plan application requirements.
 
 
-2) Features list 
+2)      Features list 
 
 The application begins with user information gathering.Provide the daily diet plan application with your information including age in years, sex, height in centimeter, weight in kilogram, and your activity rate in a scale from 1 to 5 as described below. 
 
@@ -25,28 +25,28 @@ The application begins with user information gathering.Provide the daily diet pl
 
 
 
- • The main screens of Daily diet plan is designed as a bottom navigation application  with two tabs:
-   a) Home tab: Displays the values of reccomended calorie estimation, Body mass index (BMI), weight in kiograms and BMI category as status.
+ •     The main screens of Daily diet plan is designed as a bottom navigation application  with two tabs:
+   a) Home tab: Displays the values of reccomended calorie estimation, Body mass index (BMI), weight in kiograms and BMI category as status.  
    
    
-   <img src="images/Home.png" width= 200 />
+   <img src="images/Home.png" width= 250 />    
 
 
-   b) ‘Today’s Diet’ tab: Shows the list of food items planned to take for Breakfast, snacks, lunch and dinner. This view alerts on the remaining calorie to spend based on selected diet.
+   b) ‘Today’s Diet’ tab: Shows the list of food items planned to take for Breakfast, snacks, lunch and dinner. This view alerts on the remaining calorie to spend based on selected diet.  
   
-• Planning the meals: Initially the ‘Todays Diet’ tab is an empty list where user can add his choice of food. The ‘ADD’ button in each meals takes user to a search screen.
+•     Planning the meals: Initially the ‘Todays Diet’ tab is an empty list where user can add his choice of food. The ‘ADD’ button in each meals takes user to a search screen.  
 
 
 
 <img src="images/emptyPlan.png" width= 250 />
 
-• Search screen: Type in any food item you wish to have. The application returns a list of options with ingredients, brand (if available), amount of food and calorie in Kilo Jules. The food options are from USDA Food Data Central Database.
+•     Search screen: Type in any food item you wish to have. The application returns a list of options with ingredients, brand (if available), amount of food and calorie in Kilo Jules.   The food options are from USDA Food Data Central Database.  
 
-• Updates on ‘Today’s Diet’ tab: For each food selection the remaining calorie is updated and selected food item is listed.   
+•     Updates on ‘Today’s Diet’ tab: For each food selection the remaining calorie is updated and selected food item is listed.     
 
 
   
-3)To do list 
+3)    To do list 
 
 a.	Add a settings tab in the bottom navigation with user profile information.  
 b.	Ability to edit user information.  
@@ -58,22 +58,22 @@ f.	Integrate activity tracker.
 
 
 
-4)Building (List of all libraries used) 
+4)    Building (List of all libraries used) 
 
-•	Recycler View to list the food items 
-•	Retrofit library for the API interaction
-• Shared Preferences to save data locally
+•	Recycler View to list the food items   
+•	Retrofit library for the API interaction  
+•       Shared Preferences to save data locally  
 
 
-5)Set up Instructions 
+5)    Set up Instructions 
   checkout or download from github  
  
 
-6)Users Manual 
+6)    Users Manual 
  - Check out this video for the application in operation
 
 
-7)Contact us:
+7)    Contact us:
 Pull request are welcome . Please email at ruckiya.sinorina@gmail.com
 
 

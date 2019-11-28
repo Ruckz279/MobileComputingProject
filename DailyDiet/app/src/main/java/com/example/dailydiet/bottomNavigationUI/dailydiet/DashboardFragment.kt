@@ -1,6 +1,7 @@
 package com.example.dailydiet.bottomNavigationUI.dailydiet
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailydiet.R
 import com.example.dailydiet.SaveSharedPref
+import com.example.dailydiet.bottomNavigationUI.dailydiet.Models.FoodItem
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+
+import java.io.File
+import java.io.FileWriter
 
 class DashboardFragment : Fragment() {
       private lateinit var foodAdapter: FoodItemRecyclerAdapter
       private lateinit var dashboardViewModel: DashboardViewModel
+    private var file = "food_selection_list"
+    var foodList = DataSource.createDataSet()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,20 +43,34 @@ class DashboardFragment : Fragment() {
         initRecyclerView()
         addData()
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //super.onActivityResult(requestCode, resultCode, data)
-        if(data!=null){
-            if(resultCode == Activity.RESULT_OK){
-                var foodItem = data.getSerializableExtra("MENU_ITEM")
-            }
 
+    fun updateItem(foodItem: FoodItem, mealType:String) {
+
+        var item: FoodItem? = foodList.find { it.title == mealType }
+        var temp = foodList.indexOf(item)
+        foodList[temp] = foodItem
+        addData()
+    }
+
+    fun addFoodAction(item:FoodItem){
+        val intent =  Intent(getActivity(), SearchActivity()::class.java)
+        intent.putExtra("MENU_TITLE", item.title)
+        getActivity()!!.startActivityForResult(intent,12345)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(data!=null){
+            if(resultCode == -1){
+                var foodItem = data.getSerializableExtra("MENU_ITEM") as FoodItem
+                var title = data.getSerializableExtra("MENU_TITLE") as String
+                updateItem(foodItem , title)
+            }
         }
     }
 
 
     private fun addData(){
-        val data = DataSource.createDataSet()
-        foodAdapter.submitList(data)
+        //foodList = DataSource.createDataSet()
+        foodAdapter.submitList(foodList)
     }
 
     private  fun initRecyclerView(){
