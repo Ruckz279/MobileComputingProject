@@ -7,6 +7,8 @@ data class FoodItem(
     var title:String?,
     var calorie: String?,
     var brand:String?,
+    var servingSize:String?,
+    var servingUnit:String?,
     var ingredients:String?,
     var itemType:String?
 ):Serializable

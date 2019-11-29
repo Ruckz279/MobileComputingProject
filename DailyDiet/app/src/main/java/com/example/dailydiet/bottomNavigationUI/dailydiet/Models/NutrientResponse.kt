@@ -6,18 +6,22 @@ class FoodDetailResponse {
 
     @SerializedName("description")
     var description: String? = null
+    @SerializedName("servingSizeUnit")
+    var unit: String? = null
+    @SerializedName("servingSize")
+    var servingSize: Double? = null
     @SerializedName("foodNutrients")
     var nutrients = ArrayList<FoodNutrients>()
-    //@SerializedName("inputFoods")
-    //var inputFoods=ArrayList<InputFoods>()
-   // var inputFoods=InputFoods()
+
+   // var  inputFoods = InputFoods()
 }
+   // var inputFoods=InputFoods()
 
 class FoodNutrients {
+    var id: Int? = 0
     var amount:String ?= null
     @SerializedName("nutrient")
     var nutrients = Nutrient()
-
 }
 class Nutrient {
     var id: Int? = 0
@@ -26,8 +30,3 @@ class Nutrient {
     var rank: Int? = 0
 }
 
-class InputFoods{
-    var portionDescription : String?=null
-    var portionCode : String?=null
-    var gramWeight:Int?=0
-}

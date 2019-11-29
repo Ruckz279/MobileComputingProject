@@ -15,4 +15,5 @@ class Foods {
     var ingredients:String ?= null
     var description:String ?= null
 
+
 }

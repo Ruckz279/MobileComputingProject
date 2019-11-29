@@ -17,7 +17,8 @@ class HeightActivity : AppCompatActivity() {
         setContentView(R.layout.activity_height)
         next2.setOnClickListener(){
             val height = height.text.toString()
-            if (height.toInt() >0) {
+            //check if height entered
+            if (height.isNotEmpty() && height.toInt() >0) {
                 saveAge(height)
                 val intent = Intent(this, WeightActivity::class.java)
                 startActivity(intent)

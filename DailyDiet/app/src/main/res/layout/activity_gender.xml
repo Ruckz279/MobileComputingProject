@@ -13,33 +13,17 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="31dp"
         android:layout_marginRight="31dp"
-        android:text="@string/next4"
+        android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/femaleToggle" />
 
     <ToggleButton
-        android:id="@+id/maleToggle"
-        android:layout_width="177dp"
-        android:layout_height="389dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:text="@string/maleToggle"
-        android:textOff="@string/maleToggle"
-        android:textOn="@string/maleToggle"
-        app:layout_constraintEnd_toStartOf="@+id/femaleToggle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ToggleButton
         android:id="@+id/femaleToggle"
-        android:layout_width="190dp"
-        android:layout_height="389dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="13dp"
         android:layout_marginLeft="13dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:text="@string/femaleToggle"
@@ -47,5 +31,40 @@
         android:textOn="@string/femaleToggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/maleToggle"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <ToggleButton
+        android:id="@+id/maleToggle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:text="@string/maleToggle"
+        android:textOff="@string/maleToggle"
+        android:textOn="@string/maleToggle"
+        app:layout_constraintEnd_toStartOf="@+id/femaleToggle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/femaleToggle" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="119dp"
+        android:gravity="center"
+        android:text="@string/gender"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/femaleToggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Select your gender " />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

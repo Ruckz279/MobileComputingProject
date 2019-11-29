@@ -102,7 +102,8 @@ class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<Rec
         fun bind(foodItem: FoodItem){
             foodTitle.setText(foodItem.title)
             foodIngredients.setText(foodItem.ingredients)
-            foodCalorie.setText("CALORIE :" + foodItem.calorie.toString())
+            foodCalorie.setText(foodItem.calorie.toString()+" CALORIE PER  "+ foodItem.servingSize.toString() + foodItem.servingUnit.toString())
+
             //val requestOptions =RequestOptions().placeholder().error()
             //Glide.with(itemView.context).load(foodItem.image).into(foodImage)
 

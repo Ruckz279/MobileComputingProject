@@ -87,11 +87,6 @@ class SearchActivity(): AppCompatActivity() {
             //Fragment uploadType = getChildFragmentManager().findFragmentById(R.id.container_framelayout);
             foodAdapter = FoodItemRecyclerAdapter(DashboardFragment())
             adapter = foodAdapter
-            foodAdapter.onItemClick = { fooditem ->
-
-                // do something with your item
-                Log.d("TAG", fooditem.calorie)
-            }
         }
     }
 
@@ -132,7 +127,7 @@ class SearchActivity(): AppCompatActivity() {
     }
     fun getCalorie(foodItem :FoodItem, callback:(FoodItem)->Unit) {
         //get calorie of a selected food id
-        var calorie: String = ""
+        var calorie: Int = 0
         val call = service.getFoodDetails(foodItem.food_ID, api_key)
         call.enqueue(object : Callback<FoodDetailResponse> {
             override fun onResponse(
@@ -141,12 +136,14 @@ class SearchActivity(): AppCompatActivity() {
             ){
                 if (response.code() == 200) {
                     val foodDetailResponse = response.body()!!
+                    foodItem.servingSize = foodDetailResponse.servingSize.toString()
+                    foodItem.servingUnit = foodDetailResponse.unit
                     for (item in foodDetailResponse.nutrients) {
-                        if (item.nutrients.id == 1008) {
-                            calorie = item.amount!!
+                        if (item.nutrients.id == 1008 && item.amount != null) {
+                            calorie = (item.amount!!.toDouble()).toInt()
                             //calorie = "%.2f".format(item.amount).toDouble().toString()
                             //var portion = foodDetailResponse.inputFoods.gramWeight.toString()
-                            foodItem.calorie = calorie //+ "/" +portion+"gm"
+                            foodItem.calorie = calorie.toString() //+ "/" +portion+"gm"
                             callback(foodItem)
                             break
                         }
@@ -156,6 +153,8 @@ class SearchActivity(): AppCompatActivity() {
                             "\n" +
                             "Calorie: " + calorie +
                             "\n"
+
+
                 }
 
             }
@@ -169,10 +168,11 @@ class SearchActivity(): AppCompatActivity() {
         var foodArrayList: MutableList<FoodItem> = ArrayList()
         for (item in dataArray.foods) {
             var foodItem1:Foods = item
-            var foodItem: FoodItem = FoodItem(null,null,null,null,null, null)
+            var foodItem: FoodItem = FoodItem(null,null,null,null,null, null,null,null)
             foodItem.title = foodItem1.description
             foodItem.ingredients = item.ingredients
             foodItem.food_ID = item.foodID
+            foodItem.brand = item.brandOwner
             // In call back update the recycler view
             getCalorie(foodItem){foodItem->
                 foodArrayList.add(foodItem)

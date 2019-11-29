@@ -7,10 +7,10 @@
 
     <Button
         android:id="@+id/weight"
-        android:layout_width="177dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginLeft="21dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="220dp"
         android:layout_marginEnd="11dp"
         android:layout_marginRight="11dp"
@@ -27,11 +27,13 @@
 
     <Button
         android:id="@+id/bmi"
-        android:layout_width="185dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="220dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:background="#FFFFFF"
         android:clickable="false"
         android:text="@string/bmi"
@@ -39,6 +41,7 @@
         android:textColor="#F52A48"
         android:textColorLink="#FFF38B6D"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/weight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,18 +60,21 @@
 
     <Button
         android:id="@+id/status"
-        android:layout_width="242dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginRight="154dp"
         android:layout_marginBottom="163dp"
         android:background="#F52A48"
         android:clickable="false"
         android:text="@string/status"
-        android:textSize="18sp"
         android:textColor="#FFFFFF"
         android:textColorLink="#FFF38B6D"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -104,7 +110,7 @@
 
     <Button
         android:id="@+id/budget"
-        android:layout_width="371dp"
+        android:layout_width="0dp"
         android:layout_height="49dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"

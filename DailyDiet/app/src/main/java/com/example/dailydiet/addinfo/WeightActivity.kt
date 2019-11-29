@@ -15,7 +15,7 @@ class WeightActivity : AppCompatActivity() {
         setContentView(R.layout.activity_weight)
         next3.setOnClickListener(){
             val weight = weight.text.toString()
-            if (weight.toInt() >0) {
+            if (weight.isNotEmpty() && weight.toInt() >0) {
                 saveAge(weight)
                 val intent = Intent(this, GenderActivity::class.java)
                 startActivity(intent)

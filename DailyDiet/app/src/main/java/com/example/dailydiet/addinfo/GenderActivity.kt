@@ -15,39 +15,29 @@ class GenderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gender)
         next4.setOnClickListener() {
-            val gender = "MALE"
-            saveGender(gender)
+            if (gender == "1") {
+                saveGender("MALE")
+            }
+            else {
+                saveGender("FEMALE")
+            }
             val intent = Intent(this, ActiveActivity::class.java)
             startActivity(intent)
         }
 
-
+        // using toggle button to select gender
         maleToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 // The toggle is enabled
+                femaleToggle.isChecked = false
                 gender = "1"
-            } else {
-                femaleToggle.isChecked
-                gender = "2"// The toggle is disabled
             }
         }
         // Set an checked change listener for toggle button
         femaleToggle.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 gender ="2"
-                // The toggle is enabled/checked
-                //Toast.makeText(applicationContext, "Toggle on", Toast.LENGTH_SHORT).show()
-
-                // Change the app background color
-                //root_layout.setBackgroundColor(Color.GREEN)
-            } else {
-                maleToggle.isChecked
-                gender ="1"
-                // The toggle is disabled
-                //Toast.makeText(applicationContext, "Toggle off", Toast.LENGTH_SHORT).show()
-
-                // Set the app background color to gray
-                //root_layout.setBackgroundColor(Color.GRAY)
+                maleToggle.isChecked = false
             }
         }
     }

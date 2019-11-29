@@ -12,7 +12,7 @@
     <string name="title_activity_user_age">UserAge</string>
     <string name="title_activity_user_height">UserHeight</string>
     <string name="next">Next</string>
-    <string name="age">Age in years</string>
+    <string name="age">Enter your age in years</string>
     <string name="text1">How old are you ?</string>
     <string name="next2">Next</string>
     <string name="height">Height in centi meters</string>
@@ -25,7 +25,7 @@
     <string name="AddItem">EDIT</string>
     <string name="search">Search</string>
     <string name="calorie">Calorie</string>
-    <string name="how_active_are_you">How active are you?</string>
+    <string name="how_active_are_you">How active you are?</string>
     <string name="not_active">Not Active</string>
     <string name="lightly_active">Lightly Active</string>
     <string name="very_active">Very Active</string>
@@ -37,6 +37,8 @@
     <string name="todo">TODO</string>
     <string name="title">Title</string>
     <string name="ingredients">Ingredients</string>
+    <string name="let_s_begin">Let\'s Begin! :)</string>
+    <string name="gender">TextView</string>
 
 
 </resources>

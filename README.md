@@ -26,15 +26,15 @@ The application begins with user information gathering.Provide the daily diet pl
 
 
  •     The main screens of Daily diet plan is designed as a bottom navigation application  with two tabs:
-   a) Home tab: Displays the values of reccomended calorie estimation, Body mass index (BMI), weight in kiograms and BMI category as status.  
+   a) Home tab: Displays the values of recommended calorie estimation, Body mass index (BMI), weight in kilograms and BMI category as status.  
    
    
    <img src="images/Home.png" width= 250 />    
 
 
-   b) ‘Today’s Diet’ tab: Shows the list of food items planned to take for Breakfast, snacks, lunch and dinner. This view alerts on the remaining calorie to spend based on selected diet.  
+   b) ‘Today’s Diet’ tab: Shows the list of food items planned to take for breakfast, snacks, lunch, and dinner. This view alerts on the remaining calorie to spend based on selected diet.  
   
-•     Planning the meals: Initially the ‘Todays Diet’ tab is an empty list where user can add his choice of food. The ‘ADD’ button in each meals takes user to a search screen.  
+•     Planning the meals: Initially, the ‘Todays Diet’ tab is an empty list where the user can add his choice of food. The ‘ADD’ button in each meal section takes user to a search screen.  
 
 
 

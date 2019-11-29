@@ -21,7 +21,8 @@ import java.io.FileWriter
 
 class DashboardFragment : Fragment() {
       private lateinit var foodAdapter: FoodItemRecyclerAdapter
-      private lateinit var dashboardViewModel: DashboardViewModel
+       var calorieBudget = 0
+     // private lateinit var dashboardViewModel: DashboardViewModel
     private var file = "food_selection_list"
     var foodList = DataSource.createDataSet()
 
@@ -37,9 +38,12 @@ class DashboardFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //get calorie budget
         val sharedPref = SaveSharedPref()
-        val calorie = sharedPref.getStringItem("expense", getContext()!!)
-        sumCalorie1.text = calorie +" KCal"
+        val cal = sharedPref.getStringItem("expense", getContext()!!)
+        if(cal != null){
+            calorieBudget = cal!!.toInt()
+        }
         initRecyclerView()
         addData()
     }
@@ -47,8 +51,11 @@ class DashboardFragment : Fragment() {
     fun updateItem(foodItem: FoodItem, mealType:String) {
 
         var item: FoodItem? = foodList.find { it.title == mealType }
-        var temp = foodList.indexOf(item)
-        foodList[temp] = foodItem
+        if(item != null) {
+            foodItem.title = item!!.title + ": " + foodItem.title
+            var temp = foodList.indexOf(item)
+            foodList[temp] = foodItem
+        }
         addData()
     }
 
@@ -70,8 +77,27 @@ class DashboardFragment : Fragment() {
 
     private fun addData(){
         //foodList = DataSource.createDataSet()
+        updateCalorie()
         foodAdapter.submitList(foodList)
+
     }
+
+    /*update calorie remainging for food selected
+
+     */
+    fun updateCalorie(){
+        var consumedCalore = 0
+        for (item in foodList){
+            if(item.calorie!!.length >0) {
+                var cal = item.calorie!!.toInt()
+                consumedCalore = consumedCalore + cal
+            }
+        }
+        var remainingBudget = calorieBudget - consumedCalore
+        sumCalorie1.text = remainingBudget.toString() +" KCal"
+    }
+
+
 
     private  fun initRecyclerView(){
         recycler.apply {
