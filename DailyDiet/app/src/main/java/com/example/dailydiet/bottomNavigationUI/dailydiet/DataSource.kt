@@ -16,6 +16,7 @@ class DataSource {
                     "",
                     "",
                     "",
+                    "",
                 "MENU"
                 )
             )
@@ -23,6 +24,7 @@ class DataSource {
                FoodItem(
                    null,
                    "SNACK",
+                   "",
                    "",
                    "",
                    "",
@@ -41,6 +43,7 @@ class DataSource {
                     "",
                     "",
                     "",
+                    "",
                     "MENU"
                 )
             )
@@ -48,7 +51,8 @@ class DataSource {
             list.add(
                 FoodItem(
                     null,
-                    "SNACK",
+                    "SNACK-2",
+                    "",
                     "",
                     "",
                     "",
@@ -61,6 +65,7 @@ class DataSource {
                 FoodItem(
                     null,
                     "DINNER",
+                    "",
                     "",
                     "",
                     "",

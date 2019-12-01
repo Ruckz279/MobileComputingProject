@@ -34,4 +34,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search"></androidx.recyclerview.widget.RecyclerView>
 
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/progressview"
+        android:visibility="gone"></include>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

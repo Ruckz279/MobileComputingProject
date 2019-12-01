@@ -1,6 +1,5 @@
 package com.example.dailydiet.bottomNavigationUI.dailydiet
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,20 +10,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailydiet.R
-import com.example.dailydiet.SaveSharedPref
+import com.example.dailydiet.SaveSharedPrefHelper
 import com.example.dailydiet.bottomNavigationUI.dailydiet.Models.FoodItem
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
-import java.io.File
-import java.io.FileWriter
-
 class DashboardFragment : Fragment() {
-      private lateinit var foodAdapter: FoodItemRecyclerAdapter
-       var calorieBudget = 0
+    private lateinit var foodAdapter: FoodItemRecyclerAdapter
+    var calorieBudget = 0
+    val sharedPref = SaveSharedPrefHelper()
      // private lateinit var dashboardViewModel: DashboardViewModel
     private var file = "food_selection_list"
-    var foodList = DataSource.createDataSet()
+    lateinit var foodList :ArrayList<FoodItem>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,29 +37,30 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //get calorie budget
-        val sharedPref = SaveSharedPref()
+        val sharedPref = SaveSharedPrefHelper()
         val cal = sharedPref.getStringItem("expense", getContext()!!)
         if(cal != null){
-            calorieBudget = cal!!.toInt()
+            calorieBudget = cal.toInt()
         }
+        foodList = getFoodChoice()
         initRecyclerView()
         addData()
     }
 
     fun updateItem(foodItem: FoodItem, mealType:String) {
-
-        var item: FoodItem? = foodList.find { it.title == mealType }
+        var item: FoodItem? = foodList.find { it.menu == mealType }
         if(item != null) {
-            foodItem.title = item!!.title + ": " + foodItem.title
             var temp = foodList.indexOf(item)
+            foodItem.itemType = "MENU"
             foodList[temp] = foodItem
         }
+        saveFoodChoices(foodList)
         addData()
     }
 
     fun addFoodAction(item:FoodItem){
         val intent =  Intent(getActivity(), SearchActivity()::class.java)
-        intent.putExtra("MENU_TITLE", item.title)
+        intent.putExtra("MENU_TITLE", item.menu)
         getActivity()!!.startActivityForResult(intent,12345)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -76,10 +75,31 @@ class DashboardFragment : Fragment() {
 
 
     private fun addData(){
-        //foodList = DataSource.createDataSet()
         updateCalorie()
         foodAdapter.submitList(foodList)
+    }
 
+    /* save food choice as json string
+
+     */
+    fun saveFoodChoices(DataArrayList: ArrayList<FoodItem>) {
+        val jsonString = Gson().toJson(DataArrayList)
+        sharedPref.saveStringItem("FoodChoice",jsonString, context!!)
+    }
+
+    /*get saved food choices as array list
+
+     */
+    fun getFoodChoice():ArrayList<FoodItem>{
+        var foodCoice = sharedPref.getStringItem("FoodChoice",context!!)
+        if(foodCoice != null) {
+            val collectionType = object : TypeToken<ArrayList<FoodItem>>() {}.type
+            var flist = Gson().fromJson(foodCoice, collectionType) as ArrayList<FoodItem>
+            return flist
+        }
+        else{
+            return DataSource.createDataSet()
+        }
     }
 
     /*update calorie remainging for food selected
@@ -95,6 +115,7 @@ class DashboardFragment : Fragment() {
         }
         var remainingBudget = calorieBudget - consumedCalore
         sumCalorie1.text = remainingBudget.toString() +" KCal"
+
     }
 
 
@@ -104,11 +125,6 @@ class DashboardFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             foodAdapter = FoodItemRecyclerAdapter(this@DashboardFragment)
             adapter = foodAdapter
-            foodAdapter.onItemClick = { fooditem ->
-
-                // do something with your item
-                Log.d("TAG", fooditem.calorie)
-            }
         }
     }
 }

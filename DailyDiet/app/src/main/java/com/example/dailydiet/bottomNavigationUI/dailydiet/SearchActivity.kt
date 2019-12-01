@@ -5,8 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
-import android.util.Log
+import android.view.View
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailydiet.R
@@ -26,9 +25,8 @@ import kotlin.collections.ArrayList
 
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
-import com.example.dailydiet.SaveSharedPref
-import com.google.android.material.bottomnavigation.BottomNavigationMenu
+import android.widget.Toast
+import com.example.dailydiet.SaveSharedPrefHelper
 
 
 class SearchActivity(): AppCompatActivity() {
@@ -59,7 +57,6 @@ class SearchActivity(): AppCompatActivity() {
                 search.text = null
             }
         }
-
         initRecyclerView()
 
     }
@@ -68,18 +65,6 @@ class SearchActivity(): AppCompatActivity() {
         var api_key = "DplHTnW193Hm4kgiAGHKPUTAginfkQsRbClBEI5X"
     }
 
-    override fun onResume() {
-        super.onResume()
-        getSavedValues()
-    }
-
-    fun getSavedValues() {
-        val sharedPref = SaveSharedPref()
-        val food = sharedPref.getStringItem(menu+"item", this)
-        val cal = sharedPref.getStringItem(menu+"calorie", this)
-        //var f: FoodItem = null
-        //return f
-    }
     private fun initRecyclerView() {
         recycler2.apply {
             layoutManager = LinearLayoutManager(context)
@@ -101,6 +86,7 @@ class SearchActivity(): AppCompatActivity() {
 
         val callSearch = service.searchFood(body, api_key)
         hideKeyboard()
+        progressBar.visibility = View.VISIBLE
         callSearch.enqueue(object : Callback<FoodsResponse> {
             override fun onResponse(
                 call: Call<FoodsResponse>,
@@ -110,9 +96,14 @@ class SearchActivity(): AppCompatActivity() {
                     val foodsResponse = response.body()!!
                     recyclerFoodObject(foodsResponse)
                 }
+                else{
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
+                }
             }
             override fun onFailure(call: Call<FoodsResponse>, t: Throwable) {
-
+                progressBar.visibility = View.GONE
+                Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -120,9 +111,9 @@ class SearchActivity(): AppCompatActivity() {
     fun dismissSearch(fooditem:FoodItem){
         val returnIntent = Intent()
         returnIntent.putExtra("MENU_TITLE",menu)
+        fooditem.menu = menu
         returnIntent.putExtra("MENU_ITEM",fooditem)
         setResult(Activity.RESULT_OK,returnIntent)
-        //frag.updateItem(fooditem ,menu)
         finish()
     }
     fun getCalorie(foodItem :FoodItem, callback:(FoodItem)->Unit) {
@@ -141,25 +132,21 @@ class SearchActivity(): AppCompatActivity() {
                     for (item in foodDetailResponse.nutrients) {
                         if (item.nutrients.id == 1008 && item.amount != null) {
                             calorie = (item.amount!!.toDouble()).toInt()
-                            //calorie = "%.2f".format(item.amount).toDouble().toString()
-                            //var portion = foodDetailResponse.inputFoods.gramWeight.toString()
-                            foodItem.calorie = calorie.toString() //+ "/" +portion+"gm"
+                            foodItem.calorie = calorie.toString()
+                            progressBar.visibility = View.GONE
                             callback(foodItem)
                             break
                         }
                     }
-                    val stringBuilder = "Item: " +
-                            foodDetailResponse.description +
-                            "\n" +
-                            "Calorie: " + calorie +
-                            "\n"
-
-
                 }
-
+                else{
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
+                }
             }
             override fun onFailure(call: Call<FoodDetailResponse>, t: Throwable) {
-
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -168,21 +155,21 @@ class SearchActivity(): AppCompatActivity() {
         var foodArrayList: MutableList<FoodItem> = ArrayList()
         for (item in dataArray.foods) {
             var foodItem1:Foods = item
-            var foodItem: FoodItem = FoodItem(null,null,null,null,null, null,null,null)
+            var foodItem: FoodItem = FoodItem(null,null,null,null,null, null,null,null,null)
             foodItem.title = foodItem1.description
             foodItem.ingredients = item.ingredients
             foodItem.food_ID = item.foodID
             foodItem.brand = item.brandOwner
-            // In call back update the recycler view
+            foodItem.itemType ="SEARCH"
+            // In call back update the recycler view with foodArrayList
             getCalorie(foodItem){foodItem->
                 foodArrayList.add(foodItem)
                 if(foodArrayList.size == (dataArray.foods).size)
+                    progressBar.visibility = View.GONE
                     foodAdapter.submitList(foodArrayList)
             }
-            //food id string
         }
 
-        //return foodArrayList
     }
 }
 

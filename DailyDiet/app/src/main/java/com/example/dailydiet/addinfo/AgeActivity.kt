@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.dailydiet.R
-import com.example.dailydiet.SaveSharedPref
+import com.example.dailydiet.SaveSharedPrefHelper
 import kotlinx.android.synthetic.main.activity_age.*
 
 
@@ -27,7 +27,7 @@ class AgeActivity : AppCompatActivity() {
     }
 
     fun saveAge( age:String){
-        val sharedPref= SaveSharedPref()
+        val sharedPref= SaveSharedPrefHelper()
         val editor = sharedPref.saveStringItem("age",age,this)
     }
 

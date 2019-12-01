@@ -7,8 +7,7 @@ import android.view.View
 import android.widget.Button
 import com.example.dailydiet.MainActivity
 import com.example.dailydiet.R
-import com.example.dailydiet.SaveSharedPref
-import kotlinx.android.synthetic.main.activity_age.*
+import com.example.dailydiet.SaveSharedPrefHelper
 
 class ActiveActivity : AppCompatActivity() {
     var activity: String =""
@@ -29,7 +28,7 @@ class ActiveActivity : AppCompatActivity() {
 
 
     fun saveActiveStatus(active: String) {
-        val sharedPref = SaveSharedPref()
+        val sharedPref = SaveSharedPrefHelper()
         val editor = sharedPref.saveStringItem("active", active, this)
     }
 }

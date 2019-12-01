@@ -14,15 +14,12 @@ import com.example.dailydiet.R
 import com.example.dailydiet.bottomNavigationUI.dailydiet.Models.FoodItem
 import kotlinx.android.synthetic.main.fooditem_layout.view.*
 
-import android.app.Activity
 import android.content.Context
-import androidx.fragment.app.Fragment
-import com.example.dailydiet.SaveSharedPref
+import com.example.dailydiet.SaveSharedPrefHelper
 
 
 class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     var items: List<FoodItem> = ArrayList()
-    var onItemClick: ((FoodItem) -> Unit)? = null
     var frag = frag
     lateinit var mContext:Context
     //to identify which activity the recycler is used
@@ -45,13 +42,12 @@ class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<Rec
         when(holder){
             is FoodItemViewHolder ->{
                 holder.addFoodBtn.setOnClickListener {
-                    //check if its search activity or the Menu activity(foodTitle tag as -1)
+                    //check if its search activity or the Menu activity
                     var context = holder.itemView.getContext()
-                    if(holder.itemViewType== TYPE_MENU) {
+                    if(holder.itemViewType == TYPE_MENU) {
                         frag.addFoodAction(items.get(position))
-                        (holder.itemView.food_ingredients.setTextColor(Color.GREEN))
                     }
-                    else {
+                    else if(holder.itemViewType == TYPE_SEARCH) {
                         //dismiss the search View
                         var f = items.get(position)
                         (context as SearchActivity).dismissSearch(f)
@@ -67,27 +63,26 @@ class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<Rec
                         mContext.startActivity(intent)
                     }
                 }
-                holder.bind(items.get(position))
+                holder.bind(items.get(position),holder.itemViewType)
             }
         }
     }
     fun saveItem( menu:String,food:FoodItem, context: Context){
-        val sharedPref= SaveSharedPref()
-        var editor = sharedPref.saveStringItem(menu+"item",food.title.toString(),context)
-        editor = sharedPref.saveStringItem(menu+"calorie",food.calorie.toString(),context)
+        val sharedPref= SaveSharedPrefHelper()
+        sharedPref.saveStringItem(menu+"item",food.title.toString(),context)
+        sharedPref.saveStringItem(menu+"calorie",food.calorie.toString(),context)
     }
     override fun getItemViewType(position: Int): Int {
         val type = when (items[position].itemType) {
             "MENU"-> TYPE_MENU
-            else -> TYPE_SEARCH
+            "SEARCH" -> TYPE_SEARCH
+             else -> -1
         }
         return type
     }
     fun submitList(foodList : List<FoodItem>){
         items = foodList
-
         notifyDataSetChanged()
-
     }
 
     class FoodItemViewHolder constructor(
@@ -99,10 +94,25 @@ class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<Rec
         val foodCalorie: TextView = itemView.food_calorie
         val addFoodBtn : Button = itemView.add_Item
 
-        fun bind(foodItem: FoodItem){
-            foodTitle.setText(foodItem.title)
-            foodIngredients.setText(foodItem.ingredients)
-            foodCalorie.setText(foodItem.calorie.toString()+" CALORIE PER  "+ foodItem.servingSize.toString() + foodItem.servingUnit.toString())
+        fun bind(foodItem: FoodItem, itemType:Int){
+            if( itemType == TYPE_MENU){
+                var temp = (foodItem.menu + " : " +foodItem.title)
+               foodTitle.setText(temp)
+            }
+            else if(itemType == TYPE_SEARCH) {
+                foodTitle.setText(foodItem.title)
+            }
+            if(foodItem.brand != "null")
+                foodIngredients.setText(foodItem.brand)
+            var temp = foodItem.servingSize + foodItem.servingUnit
+            if(temp != "nullnull"){
+                temp = foodItem.calorie.toString()+" CALORIE PER  "+ temp
+            }
+            else{
+                temp = foodItem.calorie.toString()+" CALORIE"
+            }
+            foodCalorie.setText(temp)
+
 
             //val requestOptions =RequestOptions().placeholder().error()
             //Glide.with(itemView.context).load(foodItem.image).into(foodImage)

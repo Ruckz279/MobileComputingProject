@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.dailydiet.R
-import com.example.dailydiet.SaveSharedPref
+import com.example.dailydiet.SaveSharedPrefHelper
 
 
 
@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
         val status:Button = root.findViewById(R.id.status)
         val bmi:Button = root.findViewById(R.id.bmi)
         //homeViewModel.weight.observe(this, Observer {
-        val sharedPref = SaveSharedPref()
+        val sharedPref = SaveSharedPrefHelper()
         val calorie = sharedPref.getStringItem("expense", getContext()!!)
         val weght = sharedPref.getStringItem("weight",getContext()!!)
         val categry = sharedPref.getStringItem("category",getContext()!!)

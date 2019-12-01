@@ -1,26 +1,31 @@
 package com.example.dailydiet
 
-import android.app.Activity
+
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.dailydiet.addinfo.AgeActivity
+import com.example.dailydiet.bottomNavigationUI.dailydiet.Models.FoodItem
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlin.math.round
-import com.example.dailydiet.SaveSharedPref as SaveSharedPref
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //set up bottom navigation view
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
@@ -31,23 +36,39 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         //get the saved user information from shared preference
-        var (age, height, weight, gender,active) = getSavedValues()
+        var (age, height, weight, gender, active) = getSavedValues()
         //if no infromation saved call intent to gather user information
         if (active == null) {
             val intent = Intent(applicationContext, AgeActivity::class.java)
             startActivity(intent)
+        } else {
+            performCalculations(age!!, height!!, weight!!, gender!!, active!!)
         }
-        else {
-            performCalculations(age!!,height!!,weight!!,gender!!,active!!)
+/*
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        if (savedInstanceState == null) {
+            val fragment = HomeFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
+                .commit()
         }
+
+ */
     }
+
+
+    //Setting Up the back button
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController, null)
+    }
+
+
 
 
     /* Get locally saved user information
 
      */
     fun getSavedValues():Array<String?> {
-        val sharedPref = SaveSharedPref()
+        val sharedPref = SaveSharedPrefHelper()
         val age = sharedPref.getStringItem("age", this)
         val height = sharedPref.getStringItem("height", this)
         val weight = sharedPref.getStringItem("weight", this)
@@ -65,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         val calorieExpense = evaluateCalorie(BMR,active)
 
         //save the estimated user data localy
-        val sharedPref= SaveSharedPref()
+        val sharedPref= SaveSharedPrefHelper()
         sharedPref.saveStringItem("expense",calorieExpense.toString(),this)
         sharedPref.saveStringItem("category",category,this)
         sharedPref.saveStringItem("BMI",BMI.toString(),this)

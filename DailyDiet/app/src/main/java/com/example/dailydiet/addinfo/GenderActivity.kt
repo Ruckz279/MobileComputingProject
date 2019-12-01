@@ -3,9 +3,8 @@ package com.example.dailydiet.addinfo
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ToggleButton
 import com.example.dailydiet.R
-import com.example.dailydiet.SaveSharedPref
+import com.example.dailydiet.SaveSharedPrefHelper
 import kotlinx.android.synthetic.main.activity_gender.*
 
 class GenderActivity : AppCompatActivity() {
@@ -42,7 +41,7 @@ class GenderActivity : AppCompatActivity() {
         }
     }
     fun saveGender(gender: String) {
-        val sharedPref = SaveSharedPref()
+        val sharedPref = SaveSharedPrefHelper()
         val editor = sharedPref.saveStringItem("gender", gender, this)
     }
 

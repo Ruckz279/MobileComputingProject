@@ -4,6 +4,7 @@ import java.io.Serializable
 
 data class FoodItem(
     var food_ID:Int?,
+    var menu:String?,
     var title:String?,
     var calorie: String?,
     var brand:String?,

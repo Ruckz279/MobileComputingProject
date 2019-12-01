@@ -38,7 +38,8 @@
     <string name="title">Title</string>
     <string name="ingredients">Ingredients</string>
     <string name="let_s_begin">Let\'s Begin! :)</string>
-    <string name="gender">TextView</string>
+    <string name="gender">Select your gender</string>
+    <string name="searching">Searching..</string>
 
 
 </resources>

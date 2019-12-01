@@ -1,13 +1,10 @@
 package com.example.dailydiet.addinfo
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.dailydiet.R
-import com.example.dailydiet.SaveSharedPref
-import kotlinx.android.synthetic.main.activity_age.*
+import com.example.dailydiet.SaveSharedPrefHelper
 import kotlinx.android.synthetic.main.activity_height.*
 
 class HeightActivity : AppCompatActivity() {
@@ -27,7 +24,7 @@ class HeightActivity : AppCompatActivity() {
     }
 
     fun saveAge( height:String){
-        val sharedPref= SaveSharedPref()
+        val sharedPref= SaveSharedPrefHelper()
         val editor = sharedPref.saveStringItem("height",height,this)
     }
 
