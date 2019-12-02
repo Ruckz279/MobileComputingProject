@@ -11,8 +11,9 @@ class DetailIngredientsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_ingredients)
         var title = intent.getStringExtra("FOOD_TITLE")
+
         var indgred = intent.getStringExtra("FOOD_INGR")
-        tiltle.text = title
-        ingredients.text = indgred
+        tiltle.text = title 
+        ingredients.text = "INGREDIENTS:  " + indgred
     }
 }

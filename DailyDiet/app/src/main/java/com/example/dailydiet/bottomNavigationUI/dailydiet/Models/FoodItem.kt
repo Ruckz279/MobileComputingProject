@@ -13,5 +13,3 @@ data class FoodItem(
     var ingredients:String?,
     var itemType:String?
 ):Serializable
-
-private var jsonTags = listOf("food_id","title","calorie","brand","ingredients","itemType")

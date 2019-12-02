@@ -1,7 +1,7 @@
 package com.example.dailydiet
 
 
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -13,9 +13,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.dailydiet.addinfo.AgeActivity
-import com.example.dailydiet.bottomNavigationUI.dailydiet.Models.FoodItem
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlin.math.round
 
 class MainActivity : AppCompatActivity() {
@@ -44,15 +41,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             performCalculations(age!!, height!!, weight!!, gender!!, active!!)
         }
-/*
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        if (savedInstanceState == null) {
-            val fragment = HomeFragment()
-            supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
-                .commit()
-        }
-
- */
     }
 
 

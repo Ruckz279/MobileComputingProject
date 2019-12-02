@@ -6,7 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="2dp"
     app:cardPreventCornerOverlap="false"
-    app:cardElevation="10dp">
+    app:cardElevation="10dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/cardview_light_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,17 +35,18 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:padding="15dp"
             android:id="@+id/container1"
             >
+
             <TextView
+                android:id="@+id/food_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/food_title"
                 android:text="The food name"
-                android:textColor="#000"
-                android:textSize="19sp"
-                />
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -53,19 +56,19 @@
                 android:textSize="15sp"
                 android:layout_marginTop="10dp"
                 />
+
             <TextView
+                android:id="@+id/food_calorie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/food_calorie"
-                android:text="cal"
-                android:textSize="15sp"
                 android:layout_marginTop="10dp"
-                />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/add_Item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="ADD" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,167 +32,188 @@ import com.example.dailydiet.SaveSharedPrefHelper
 class SearchActivity(): AppCompatActivity() {
 
     private lateinit var foodAdapter: FoodItemRecyclerAdapter
-    lateinit var menu:String
-    // prepare call in Retrofit 2.0
+    lateinit var mealType: String
+    // prepare to make call in Retrofit 2.0 to parse the API as baseurl
     val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+    //retrofit service
     val service = retrofit.create(FoodService::class.java)
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         var searchItem: String
-        menu = intent.getStringExtra("MENU_TITLE")
+        //identify meal type for search
+        mealType = intent.getStringExtra("MENU_TITLE")
+        initRecyclerView()
         search.setOnClickListener {
-
             searchItem = search.text.toString()
             showKeyboard()
-            if (searchItem.length !=0) {
-                //search for food from API
+            if (searchItem.length != 0) {
                 searchFood(searchItem)
                 search.text = null
             }
         }
-        initRecyclerView()
-
     }
+
+    //base url and api key as companion object
     companion object {
         var baseUrl = "https://api.nal.usda.gov/"
         var api_key = "DplHTnW193Hm4kgiAGHKPUTAginfkQsRbClBEI5X"
     }
 
+    /*
+        Initialise recycler view to list search items
+     */
     private fun initRecyclerView() {
-        recycler2.apply {
+        recycler_search.apply {
             layoutManager = LinearLayoutManager(context)
-            //var fragment = supportFragmentManager.
-            //Fragment uploadType = getChildFragmentManager().findFragmentById(R.id.container_framelayout);
             foodAdapter = FoodItemRecyclerAdapter(DashboardFragment())
             adapter = foodAdapter
         }
     }
 
+    /*search for food in the database
+      searchItem :  search item as string
+     */
     fun searchFood(searchItem: String) {
         var paramObject = JSONObject()
-        var food_id = 0
         paramObject.put("generalSearchInput", searchItem);
         paramObject.put("api_key", api_key);
 
         var json = paramObject.toString()
         var body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
-
         val callSearch = service.searchFood(body, api_key)
+
         hideKeyboard()
         progressBar.visibility = View.VISIBLE
+        //handle call back response
         callSearch.enqueue(object : Callback<FoodsResponse> {
-            override fun onResponse(
-                call: Call<FoodsResponse>,
-                response: Response<FoodsResponse>
-            ) {
+            override fun onResponse(call: Call<FoodsResponse>, response: Response<FoodsResponse>) {
+                progressBar.visibility = View.GONE
                 if (response.code() == 200) {
                     val foodsResponse = response.body()!!
+                    //create food object for recycler view
                     recyclerFoodObject(foodsResponse)
-                }
-                else{
+                } else {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Sorry .. Unable to connect",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
+
             override fun onFailure(call: Call<FoodsResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE
-                Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG)
+                    .show()
             }
         })
     }
 
-    fun dismissSearch(fooditem:FoodItem){
-        val returnIntent = Intent()
-        returnIntent.putExtra("MENU_TITLE",menu)
-        fooditem.menu = menu
-        returnIntent.putExtra("MENU_ITEM",fooditem)
-        setResult(Activity.RESULT_OK,returnIntent)
-        finish()
+    /* create food object for recycler view
+       dataArray : response from retrofit service as FoodResponse object
+    */
+    fun recyclerFoodObject(dataArray: FoodsResponse) {
+        var foodArrayList: MutableList<FoodItem> = ArrayList()
+        //create the Fooditem objects
+        for (item in dataArray.foods) {
+            var foodItem1: Foods = item
+            var foodItem: FoodItem = FoodItem(null, null, null, null, null, null, null, null, null)
+            foodItem.title = foodItem1.description
+            foodItem.ingredients = item.ingredients
+            foodItem.food_ID = item.foodID
+            foodItem.brand = item.brandOwner
+            foodItem.itemType = "SEARCH"
+            // In call back update the recycler view with ArrayList of Fooditem objects
+            getCalorie(foodItem) { foodItem ->
+                foodArrayList.add(foodItem)
+                if (foodArrayList.size == (dataArray.foods).size)
+                    progressBar.visibility = View.GONE
+                foodAdapter.submitList(foodArrayList)
+            }
+        }
+
     }
-    fun getCalorie(foodItem :FoodItem, callback:(FoodItem)->Unit) {
+
+    /* Get calorie, serving size and serving unit of a food item .Use retrofit API to perfom GET for a food item
+       foodItem : food item as FoodItem object
+       callback : to return and update the list with calorie
+     */
+    fun getCalorie(foodItem: FoodItem, callback: (FoodItem) -> Unit) {
         //get calorie of a selected food id
         var calorie: Int = 0
         val call = service.getFoodDetails(foodItem.food_ID, api_key)
         call.enqueue(object : Callback<FoodDetailResponse> {
-            override fun onResponse(
-                call: Call<FoodDetailResponse>,
-                response: Response<FoodDetailResponse>
-            ){
+            override fun onResponse( call: Call<FoodDetailResponse>, response: Response<FoodDetailResponse>) {
+                progressBar.visibility = View.GONE
                 if (response.code() == 200) {
                     val foodDetailResponse = response.body()!!
-                    foodItem.servingSize = foodDetailResponse.servingSize.toString()
-                    foodItem.servingUnit = foodDetailResponse.unit
+                    if (foodDetailResponse.servingSize != null) {
+                        foodItem.servingSize = foodDetailResponse.servingSize.toString()
+                        foodItem.servingUnit = foodDetailResponse.unit
+                    }
                     for (item in foodDetailResponse.nutrients) {
                         if (item.nutrients.id == 1008 && item.amount != null) {
                             calorie = (item.amount!!.toDouble()).toInt()
                             foodItem.calorie = calorie.toString()
-                            progressBar.visibility = View.GONE
                             callback(foodItem)
                             break
                         }
                     }
                 }
-                else{
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
+                else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Sorry .. Unable to connect",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
             override fun onFailure(call: Call<FoodDetailResponse>, t: Throwable) {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG).show()
+                progressBar.visibility = View.GONE
+                Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG)
+                    .show()
             }
         })
     }
 
-    fun recyclerFoodObject(dataArray: FoodsResponse) {
-        var foodArrayList: MutableList<FoodItem> = ArrayList()
-        for (item in dataArray.foods) {
-            var foodItem1:Foods = item
-            var foodItem: FoodItem = FoodItem(null,null,null,null,null, null,null,null,null)
-            foodItem.title = foodItem1.description
-            foodItem.ingredients = item.ingredients
-            foodItem.food_ID = item.foodID
-            foodItem.brand = item.brandOwner
-            foodItem.itemType ="SEARCH"
-            // In call back update the recycler view with foodArrayList
-            getCalorie(foodItem){foodItem->
-                foodArrayList.add(foodItem)
-                if(foodArrayList.size == (dataArray.foods).size)
-                    progressBar.visibility = View.GONE
-                    foodAdapter.submitList(foodArrayList)
-            }
-        }
-
+    /* Dismiss the search activity with set result in return intent
+      fooditem : selected food item as FoodItem object
+    */
+    fun dismissSearch(fooditem: FoodItem) {
+        val returnIntent = Intent()
+        returnIntent.putExtra("MENU_TITLE", mealType)
+        fooditem.menu = mealType
+        returnIntent.putExtra("MENU_ITEM", fooditem)
+        setResult(Activity.RESULT_OK, returnIntent)
+        finish()
     }
 }
 
-
-
+/* To hide keyboard
+ */
 fun AppCompatActivity.hideKeyboard() {
     val view = this.currentFocus
     if (view != null) {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
-    // else {
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-    // }
 }
 
+/* To show keyboard
+ */
 fun AppCompatActivity.showKeyboard() {
     val view = this.currentFocus
     if (view != null) {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(view, 0)
     }
-    // else {
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-    // }
 }
+
