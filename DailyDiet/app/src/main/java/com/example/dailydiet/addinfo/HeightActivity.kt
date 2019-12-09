@@ -23,6 +23,7 @@ class HeightActivity : AppCompatActivity() {
         }
     }
 
+    // save selection locally
     fun saveAge( height:String){
         val sharedPref= SaveSharedPrefHelper()
         val editor = sharedPref.saveStringItem("height",height,this)

@@ -2,8 +2,10 @@ package com.example.dailydiet.bottomNavigationUI.dailydiet.Models
 
 import com.google.gson.annotations.SerializedName
 
-class FoodDetailResponse {
+/* Food details response class for  food details API
 
+ */
+class FoodDetailResponse {
     @SerializedName("description")
     var description: String? = null
     @SerializedName("servingSizeUnit")

@@ -11,7 +11,9 @@ import com.example.dailydiet.R
 import com.example.dailydiet.SaveSharedPrefHelper
 
 
-
+/*
+    Home fragment for home tab in bottom navigation
+ */
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
@@ -28,7 +30,7 @@ class HomeFragment : Fragment() {
         val budget:Button = root.findViewById(R.id.budget)
         val status:Button = root.findViewById(R.id.status)
         val bmi:Button = root.findViewById(R.id.bmi)
-        //homeViewModel.weight.observe(this, Observer {
+        //update all the values from shared preference.
         val sharedPref = SaveSharedPrefHelper()
         val calorie = sharedPref.getStringItem("expense", getContext()!!)
         val weght = sharedPref.getStringItem("weight",getContext()!!)
@@ -39,9 +41,6 @@ class HomeFragment : Fragment() {
         budget.text = str
         status.text = categry
         bmi.text = bmiVal
-
-        //})
-
         return root
     }
 }

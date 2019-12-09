@@ -2,6 +2,8 @@ package com.example.dailydiet.bottomNavigationUI.dailydiet.Models
 
 import com.google.gson.annotations.SerializedName
 
+/* Food response class for  food search API
+ */
 class FoodsResponse {
     var totalHits: Int? = 0
     @SerializedName("foods")
@@ -14,6 +16,4 @@ class Foods {
     var brandOwner:String ?= null
     var ingredients:String ?= null
     var description:String ?= null
-
-
 }

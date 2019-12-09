@@ -2,8 +2,8 @@ package com.example.dailydiet.bottomNavigationUI.dailydiet
 
 import com.example.dailydiet.bottomNavigationUI.dailydiet.Models.FoodItem
 
+//initialize data for Diet fragment
 class DataSource {
-
     companion object{
        fun createDataSet(): ArrayList<FoodItem>{
             val list = ArrayList<FoodItem>()

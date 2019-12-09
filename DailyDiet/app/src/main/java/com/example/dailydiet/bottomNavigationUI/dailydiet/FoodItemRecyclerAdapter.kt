@@ -13,8 +13,10 @@ import kotlinx.android.synthetic.main.fooditem_layout.view.*
 import android.content.Context
 
 
-//Recycler adapter class for menu items and food search items
-class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+/*Recycler adapter class for menu items and food search items
+
+ */
+class FoodItemRecyclerAdapter(frag:DietFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     var items: List<FoodItem> = ArrayList()
     var frag = frag
     lateinit var mContext:Context
@@ -96,7 +98,7 @@ class FoodItemRecyclerAdapter(frag:DashboardFragment) : RecyclerView.Adapter<Rec
                 temp = foodItem.calorie.toString()+" CALORIE PER  "+ temp
             }
             else{
-                temp = foodItem.calorie.toString()+" CALORIE"
+                temp = foodItem.calorie.toString()+" CALORIE PER 100gm"
             }
             return temp
         }

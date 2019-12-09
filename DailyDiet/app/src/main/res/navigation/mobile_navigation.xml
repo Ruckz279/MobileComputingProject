@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.dailydiet.bottomNavigationUI.dailydiet.DashboardFragment"
+        android:name="com.example.dailydiet.bottomNavigationUI.dailydiet.DietFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard"
         app:itemIconTint="#F52A48"

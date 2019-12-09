@@ -26,6 +26,7 @@ class AgeActivity : AppCompatActivity() {
         }
     }
 
+    // save selection locally
     fun saveAge( age:String){
         val sharedPref= SaveSharedPrefHelper()
         val editor = sharedPref.saveStringItem("age",age,this)

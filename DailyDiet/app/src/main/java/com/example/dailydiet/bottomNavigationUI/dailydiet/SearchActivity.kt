@@ -26,7 +26,6 @@ import kotlin.collections.ArrayList
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.example.dailydiet.SaveSharedPrefHelper
 
 
 class SearchActivity(): AppCompatActivity() {
@@ -64,13 +63,12 @@ class SearchActivity(): AppCompatActivity() {
         var api_key = "DplHTnW193Hm4kgiAGHKPUTAginfkQsRbClBEI5X"
     }
 
-    /*
-        Initialise recycler view to list search items
+    /* Initialise recycler view to list search items
      */
     private fun initRecyclerView() {
         recycler_search.apply {
             layoutManager = LinearLayoutManager(context)
-            foodAdapter = FoodItemRecyclerAdapter(DashboardFragment())
+            foodAdapter = FoodItemRecyclerAdapter(DietFragment())
             adapter = foodAdapter
         }
     }
@@ -106,7 +104,6 @@ class SearchActivity(): AppCompatActivity() {
                     ).show()
                 }
             }
-
             override fun onFailure(call: Call<FoodsResponse>, t: Throwable) {
                 progressBar.visibility = View.GONE
                 Toast.makeText(applicationContext, "Sorry .. Unable to connect", Toast.LENGTH_LONG)
@@ -146,21 +143,29 @@ class SearchActivity(): AppCompatActivity() {
      */
     fun getCalorie(foodItem: FoodItem, callback: (FoodItem) -> Unit) {
         //get calorie of a selected food id
-        var calorie: Int = 0
+        var calorie = 0.00
         val call = service.getFoodDetails(foodItem.food_ID, api_key)
         call.enqueue(object : Callback<FoodDetailResponse> {
             override fun onResponse( call: Call<FoodDetailResponse>, response: Response<FoodDetailResponse>) {
                 progressBar.visibility = View.GONE
                 if (response.code() == 200) {
                     val foodDetailResponse = response.body()!!
-                    if (foodDetailResponse.servingSize != null) {
-                        foodItem.servingSize = foodDetailResponse.servingSize.toString()
+                    var serving = foodDetailResponse.servingSize
+                    //Calorie per 100g if serving information is null
+                    if (serving!= null) {
+                        foodItem.servingSize = serving.toString()
                         foodItem.servingUnit = foodDetailResponse.unit
+                    }
+                    else {
+                        serving = 100.00
                     }
                     for (item in foodDetailResponse.nutrients) {
                         if (item.nutrients.id == 1008 && item.amount != null) {
-                            calorie = (item.amount!!.toDouble()).toInt()
-                            foodItem.calorie = calorie.toString()
+                            calorie = item.amount!!.toDouble()
+                            //Evaluate calorie per serving
+                            var calPergram = (calorie/100.00)
+                            calorie = calPergram *serving
+                            foodItem.calorie = calorie.toInt().toString()
                             callback(foodItem)
                             break
                         }
