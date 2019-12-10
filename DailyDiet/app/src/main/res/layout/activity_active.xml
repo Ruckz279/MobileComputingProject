@@ -89,6 +89,7 @@
         android:layout_marginRight="1dp"
         android:layout_marginBottom="10dp"
         android:onClick="clickListener"
+        android:tag="3"
         android:text="@string/active"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"

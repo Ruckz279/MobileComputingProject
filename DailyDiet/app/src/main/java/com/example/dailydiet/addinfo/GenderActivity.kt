@@ -17,11 +17,13 @@ class GenderActivity : AppCompatActivity() {
             if (gender == "1") {
                 saveGender("MALE")
             }
-            else {
+            else if (gender == "2") {
                 saveGender("FEMALE")
             }
-            val intent = Intent(this, ActiveActivity::class.java)
-            startActivity(intent)
+            if(gender.isNotEmpty()) {
+                val intent = Intent(this, ActiveActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         // using toggle button to select gender
