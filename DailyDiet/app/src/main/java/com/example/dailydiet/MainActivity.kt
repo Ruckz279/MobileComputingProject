@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     /* Get locally saved user information
         @Return Array : array of strings
      */
-    fun getSavedValues():Array<String?> {
+    private fun getSavedValues():Array<String?> {
         val sharedPref = SaveSharedPrefHelper()
         val age = sharedPref.getStringItem("age", this)
         val height = sharedPref.getStringItem("height", this)
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     /*Perform calculations BMI , category, evaluate BMR  and the calorie expense
      *save evaluations locally
      */
-    fun performCalculations(age:String,height: String,weight: String,gender: String,active: String){
+    private fun performCalculations(age:String,height: String,weight: String,gender: String,active: String){
         val BMI = evaluateBMI(age, height, weight)
         val category = getCategory(BMI)
         val BMR = evaluateBMR(age,height, weight,gender)
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     /* Evaluate BMI
        @Return BMI value as Double
      */
-    fun evaluateBMI(age:String, height:String, weight:String): Double {
+    private fun evaluateBMI(age:String, height:String, weight:String): Double {
         var heightInMeters = height.toDouble()/100
         val temp = Math.pow(heightInMeters,2.0)
         val BMI = weight.toDouble()/temp
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     /* Evaluate category
        @Return category value as String
      */
-    fun getCategory(BMI :Double): String {
+    private fun getCategory(BMI :Double): String {
         var category:String = "NONE"
         when {
             BMI < 18.5 -> category = "UNDERWEIGHT"
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
     /* Evaluate BMR
        @Return BMR value as Double
      */
-    fun evaluateBMR(age:String, height:String, weight:String, gender:String): Double {
+    private fun evaluateBMR(age:String, height:String, weight:String, gender:String): Double {
         var BMR:Double = 0.0
         if(gender == "MALE") {
             BMR = (10 * weight.toDouble()) + (6.25 * height.toDouble()) - (5 * age.toInt()) + 5
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     /* Evaluate calorie expense
       @Return calorie value as Double
     */
-    fun evaluateCalorie(BMR: Double, active:String): Int{
+    private fun evaluateCalorie(BMR: Double, active:String): Int{
         var activeStatus =  active.toDouble()
         when (activeStatus){
             1.00 -> activeStatus = 1.2

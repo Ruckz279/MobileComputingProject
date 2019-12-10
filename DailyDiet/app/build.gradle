@@ -23,6 +23,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -42,13 +43,15 @@ dependencies {
 
     // Recyclerview view dependency
     def recyclerview_version = "1.0.0"
+    //noinspection GradleDependency
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-
     // Card  view dependency
     def cardview_version = "1.0.0"
     implementation "androidx.cardview:cardview:$cardview_version"
     //Retrofit JSON
+    //noinspection GradleDependency
     implementation 'com.squareup.retrofit2:retrofit:2.0.0'
+    //noinspection GradleDependency
     implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
 
     //glide for loading image

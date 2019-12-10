@@ -15,16 +15,11 @@ import com.example.dailydiet.SaveSharedPrefHelper
     Home fragment for home tab in bottom navigation
  */
 class HomeFragment : Fragment() {
-
-    private lateinit var homeViewModel: HomeViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val weight:Button = root.findViewById(R.id.weight)
         val budget:Button = root.findViewById(R.id.budget)
