@@ -4,16 +4,15 @@
 DAILY DIET PLAN – An android mobile application prototype (Mobile Computing Project CS855)
 
 
-1)	Description of project:
+## 1)	Description of project:
 
-This project, ‘Daily Diet Plan’ is an android mobile application prototype to integrate the Food Data Central API \cite{API} developed as part of CS 855 Mobile Computing course project requirement. 
-The 'Daily Diet Plan' application allows the user to plan their daily meals based on the personal calorie requirements. 
+‘Daily Diet Plan’ is an android mobile application prototype to integrate the Food Data Central API \cite{API} developed as part of CS 855. This application allows the user to plan their daily meals based on the personal calorie requirements. 
 Being a beginner in Android development and Kotlin programming language, this project is proposed to learn and explore the process of API integration, implementation and use of different user interface elements in an android app through facilitating the daily diet plan application requirements.
 
 
-2)      Features list 
+## 2)      Features list 
 
-The application begins with user information gathering.Provide the daily diet plan application with your information including age in years, sex, height in centimeter, weight in kilogram, and your activity rate in a scale from 1 to 5 as described below. 
+• Enter user information - The application begins with user information gathering.Provide the daily diet plan application with your information including age in years, sex, height in centimeter, weight in kilogram, and your activity rate in a scale from 1 to 5 as described below. 
 
 • The activity rate selection is from five categories:  
 
@@ -25,7 +24,7 @@ The application begins with user information gathering.Provide the daily diet pl
 
 
 
- •     The main screens of Daily diet plan is designed as a bottom navigation application  with two tabs:
+ •     The main screens of Daily diet plan is designed as a bottom navigation with two tabs:
    a) Home tab: Displays the values of recommended calorie estimation, Body mass index (BMI), weight in kilograms and BMI category as status.  
    
    
@@ -34,19 +33,17 @@ The application begins with user information gathering.Provide the daily diet pl
 
    b) ‘Today’s Diet’ tab: Shows the list of food items planned to take for breakfast, snacks, lunch, and dinner. This view alerts on the remaining calorie to spend based on selected diet.  
   
-•     Planning the meals: Initially, the ‘Todays Diet’ tab is an empty list where the user can add his choice of food. The ‘ADD’ button in each meal section takes user to a search screen.  
+•     Plan the meals: Initially, the ‘Todays Diet’ tab is an empty list where the user can add his choice of food. The ‘ADD’ button in each meal section takes user to a search screen.  
 
 
 
 <img src="images/emptyPlan.png" width= 250 />
 
-•     Search screen: Type in any food item you wish to have. The application returns a list of options with ingredients, brand (if available), amount of food and calorie in Kilo Jules.   The food options are from USDA Food Data Central Database.  
-
-•     Updates on ‘Today’s Diet’ tab: For each food selection the remaining calorie is updated and selected food item is listed.     
+•     Search food: Type in any food item you wish to have. The application returns a list of options with ingredients, brand (if available), amount of food and calorie in Kilo Jules.   The food options are from USDA Food Data Central Database.  For each food selection the remaining calorie is updated and selected food item is listed.     
 
 
   
-3)    To do list 
+## 3)    To do list 
 
 a.	Add a settings tab in the bottom navigation with user profile information.  
 b.	Ability to edit user information.  
@@ -58,22 +55,26 @@ f.	Integrate activity tracker.
 
 
 
-4)    Building (List of all libraries used) 
+## 4)    Building (List of all libraries used) 
 
 •	Recycler View to list the food items   
 •	Retrofit library for the API interaction  
-•       Shared Preferences to save data locally  
+•  Shared Preferences to save data locally  
 
 
-5)    Set up Instructions 
-  checkout or download from github  
+## 5)    Set up Instructions 
+
+  - Checkout or download from github  
  
 
-6)    Users Manual 
+## 6)    Users Manual 
+
  - Check out this video for the application in operation
+ https://www.screencast.com/t/HfVDlnie9O
 
 
-7)    Contact us:
-Pull request are welcome . Please email at ruckiya.sinorina@gmail.com
+## 7)    Contact us:
+
+Pull requests are welcome . Please email at ruckiya.sinorina@gmail.com
 
 
