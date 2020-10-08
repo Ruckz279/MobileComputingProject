@@ -6,7 +6,7 @@ DAILY DIET PLAN – An android mobile application prototype (Mobile Computing Pr
 
 ## 1)	Description of project:
 
-‘Daily Diet Plan’ is an android mobile application prototype to integrate the Food Data Central API \cite{API} developed as part of CS 855. This application allows the user to plan their daily meals based on the personal calorie requirements. 
+‘Daily Diet Plan’ is an android mobile application prototype to integrate the Food Data Central API \cite{API}. This application allows the user to plan their daily meals based on the personal calorie requirements. 
 Being a beginner in Android development and Kotlin programming language, this project is proposed to learn and explore the process of API integration, implementation and use of different user interface elements in an android app through facilitating the daily diet plan application requirements.
 
 
